@@ -4,25 +4,34 @@ from settings import Settings
 from bullet import Bullet
 from alien import Alien
 
-def create_fleet(setting , screen , aliens):
+def create_fleet(setting , screen , ship , aliens):
 	alien = Alien(setting , screen)
 	alien_width  = alien.rect.width
 	
 	number_alien_x = get_alien_num(alien_width , setting)
-	for alien_num in range(number_alien_x):
-		create_alien(setting , screen , aliens , alien_num , alien_width)
+	# 获得外星人的行数
+	number_rows = get_number_rows(setting , ship.rect.height , alien.rect.height)
+	for row_number in range(number_rows):
+		for alien_num in range(number_alien_x):
+			create_alien(setting , screen , aliens , alien_num , alien_width , row_number)
 
-def create_alien(setting , screen , aliens , alien_num , alien_width):
+def create_alien(setting , screen , aliens , alien_num , alien_width  , row_number):
 	alien = Alien(setting , screen)
 	alien.x = alien_width + 2 * alien_width * alien_num
 	alien.rect.x = alien.x
+	alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
 	aliens.add(alien)
 	
 def get_alien_num(alien_width , setting):
 	avaliable_space_x = setting.screen_width - 2 * alien_width
 	number_alien_x = int(avaliable_space_x /(2 * alien_width))
 	return number_alien_x
-		
+
+def get_number_rows(setting , ship_height , alien_height):
+	avaliable_space_y = setting.screen_height - 3 * alien_height - ship_height
+	number_rows = avaliable_space_y // (2 * alien_height)
+	return number_rows
+	
 def check_events(ship, bullets, screen, setting):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
