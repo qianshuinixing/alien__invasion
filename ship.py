@@ -21,6 +21,10 @@ class Ship():
 		
 		#因为centerx属性不能存储
 		self.center = float(self.rect.centerx)
+		
+	def center_ship(self):
+		self.rect.centerx = self.screen_rect.centerx
+		
 	def blitme(self):
 		"""在指定位置绘制飞船"""
 		self.screen.blit(self.image,self.rect)

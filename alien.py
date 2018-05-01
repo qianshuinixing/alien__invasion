@@ -16,7 +16,22 @@ class Alien(Sprite):
 		
 		# 存储外星人的准确位置
 		self.x = float(self.rect.x)
-		
+		#外星人的飞行方向，向左或者向右
+		#self.fleet_direction = 1 #1表示右移 -1表示左移
+		self.y = float(self.rect.y)
+	
+	def update(self):
+		self.x += self.setting.fleet_direction * self.setting.alien_speed_factor_x
+		self.rect.x = self.x
+	
+	def check_edges(self):
+		"如果外星人位于屏幕边缘， 就返回True"
+		screen_rect = self.screen.get_rect()
+		if self.rect.right >= screen_rect.right:
+			return True
+		elif self.rect.left <= 0:
+			return True
+	
 	def blitme(self):
 		self.screen.blit(self.image, self.rect)
 		
