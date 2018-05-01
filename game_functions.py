@@ -33,7 +33,8 @@ def check_aliens_bottom(aliens , screen ,setting):
 	return False
 		
 def ship_hit(setting , stats , screen , ship , aliens , bullets):
-	if stats.ships_left > 0:
+	print(stats.ships_left)
+	if stats.ships_left > 1:
 		stats.ships_left -= 1
 	
 		aliens.empty()
@@ -48,14 +49,18 @@ def ship_hit(setting , stats , screen , ship , aliens , bullets):
 		pygame.mouse.set_visible(True)
 
 	
-def delet_alien(aliens, bullets , setting , screen , ship ):
+def delet_alien(aliens, bullets , setting , screen , ship , game_stats ):
 	"""删除现有的子弹， 加快游戏节奏 ， 并创建一群新的外星人"""
 	collisions = pygame.sprite.groupcollide(bullets , aliens , True ,True)
+	# 增加分数
+	game_stats.update_score(len(collisions))
+	
 	if len(aliens) == 0:
 		bullets.empty()
 		create_fleet(setting , screen , ship , aliens)
 		#加快游戏节奏
 		setting.increase_speed()
+		game_stats.add_level()
 
 def update_aliens(setting , aliens):
 	check_fleet_edges(setting , aliens)
@@ -116,7 +121,7 @@ def check_events(ship, bullets, screen, setting ,stats , play_button , aliens ):
             check_play_button(setting , screen , stats , play_button , ship , aliens , bullets , mouse_x , mouse_y)
 
 
-def update_screen(screen, ship, setting, bullets , aliens , play_button ,stats):
+def update_screen(screen, ship, setting, bullets , aliens , play_button ,stats , score_board):
     # 重绘屏幕
     screen.fill(setting.bg_color)
     ship.blitme()
@@ -127,6 +132,13 @@ def update_screen(screen, ship, setting, bullets , aliens , play_button ,stats):
 	#绘制子弹
     for bullet in bullets:
         bullet.draw_bullet()
+	
+	#绘制计分板
+    score_board.draw_score_board()
+	#绘制等级板
+    score_board.draw_level_board()
+	#绘制剩余生命
+    score_board.draw_ships_left()
 	
 	#如果游戏处于非活动状态，就绘制Play按钮
     if not stats.game_active:

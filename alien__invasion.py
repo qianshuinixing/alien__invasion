@@ -8,7 +8,7 @@ from alien import Alien
 
 from game_stats import GameStats
 from button import Button
-
+from scoreboard import Scoreboard
 
 def run_game():
 	#初始化游戏并创建一个屏幕对象
@@ -36,6 +36,9 @@ def run_game():
 	# 创建Play按钮
 	play_button = Button(setting , screen , "play")
 	
+	# 创建计分板
+	score_board = Scoreboard(setting , screen , stats)
+	
 	#开始游戏主循环
 	while True:
 		#监听鼠标和键盘事件
@@ -47,13 +50,13 @@ def run_game():
 			#更新子弹的位置
 			bullets.update()
 			#检查子弹是否与外星人有碰撞， 如果有碰撞，两者都消失
-			gf.delet_alien(aliens, bullets , setting , screen , ship )
+			gf.delet_alien(aliens, bullets , setting , screen , ship , stats)
 			#更新外星人的位置
 			gf.update_aliens(setting, aliens)
 			gf.check_game_over(stats , setting, aliens , ship ,screen , bullets)
 			#删除溢出屏幕的子弹
 			gf.del_bullet(bullets)
 		#更新屏幕
-		gf.update_screen(screen , ship , setting , bullets , aliens  , play_button ,stats)
+		gf.update_screen(screen , ship , setting , bullets , aliens  , play_button ,stats ,score_board ,)
 
 run_game()

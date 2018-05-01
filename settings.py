@@ -8,7 +8,7 @@ class Settings():
 		
 		#子弹参数设置
 		self.bullet_speed_factor = 1
-		self.bullet_width = 1000
+		self.bullet_width = 20
 		self.bullet_height = 15
 		self.bullet_color = (60,60,60)
 		self.bullet_allowed = 10
@@ -36,7 +36,7 @@ class Settings():
 		self.fleet_direction = 1
 		
 	def increase_speed(self):
-		"""提高游戏速度"""
+		"""提高游戏速度  增加游戏等级"""
 		self.ship_speed_factor *= self.speedup_scale
 		self.bullet_speed_factor *= self.speedup_scale
 		self.alien_speed_factor_x *= self.speedup_scale
